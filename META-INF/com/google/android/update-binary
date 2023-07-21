@@ -158,8 +158,8 @@ fi
 
 # Remove stuffs that don't belong to modules
 rm -rf \
-$MODPATH/system/placeholder $MODPATH/customize.sh \
-$MODPATH/README.md $MODPATH/.git* 2>/dev/null
+$MODPATH/changelog.md $MODPATH/customize.sh \
+$MODPATH/README.md $MODPATH/update.json $MODPATH/.git* 2>/dev/null
 
 ##############
 # Finalizing
