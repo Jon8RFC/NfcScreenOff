@@ -1,7 +1,7 @@
 # NFCScreenOff
 
 ## TEMPORARY 2023-07-21
-I'll get things squared away in the next few days, server-side, and then drop in the new version  
+I'll get things squared away in the next 2 weeks, server-side, and then drop in the new version  
   
 I suspected lapwat abandoned the project after many months of no contact, so I learned a lot in the last ~3 weeks.  
 Now, it's all but a waste since it's too much to try and redo separately as numerous pull requests and convince him to merge into his patcher and server.  
