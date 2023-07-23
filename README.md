@@ -7,6 +7,7 @@ I suspected lapwat abandoned the project after many months of no contact, so I l
 Now, it's all but a waste since it's too much to try and redo separately as numerous pull requests and convince him to merge into his patcher and server.  
   
 But, I don't like my ~300 hours of effort and learning to be for naught, so I'll toss it up since I've spent the last 4-5 days fine-tuning and testing.  
+
 ---
 Read NFC tags when screen is off. Disable NFC tagging sound.
 
