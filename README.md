@@ -1,12 +1,9 @@
 # NFCScreenOff
 
-## TEMPORARY 2023-07-21
-I'll get things squared away in the next 2 weeks, server-side, and then drop in the new version  
+## TEMPORARY 2023-08-19
+I'm securing some server bandwidth, then I'll release this and open up the server.
   
-I suspected lapwat abandoned the project after many months of no contact, so I learned a lot in the last ~3 weeks.  
-Now, it's all but a waste since it's too much to try and redo separately as numerous pull requests and convince him to merge into his patcher and server.  
-  
-But, I don't like my ~300 hours of effort and learning to be for naught, so I'll toss it up since I've spent the last 4-5 days fine-tuning and testing.  
+I suspected lapwat abandoned the project after many months of no contact, so I learned a lot thinking I'd run a server.  Their server has been down a few days again so I'm stepping up my efforts.
 
 ---
 Read NFC tags when screen is off. Disable NFC tagging sound.
