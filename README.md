@@ -1,11 +1,5 @@
 # NFCScreenOff
 
-## TEMPORARY 2023-08-19
-I'm securing some server bandwidth, then I'll release this and open up the server.
-  
-I suspected lapwat abandoned the project after many months of no contact, so I learned a lot thinking I'd run a server.  Their server has been down a few days again so I'm stepping up my efforts.
-
----
 Read NFC tags when screen is off. Disable NFC tagging sound.
 
 _Useful integrations: [NFC Card Emulator Pro](https://play.google.com/store/apps/details?id=com.yuanwofei.cardemulator.pro) - [Tasker](https://play.google.com/store/apps/details?id=net.dinglisch.android.taskerm)_
