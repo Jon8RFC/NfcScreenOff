@@ -53,11 +53,3 @@ I'll create a server-side changelog and link here in the future.
 If you did not unlock your device since last boot, unlock it and wait 30 seconds for the module to be loaded.
 
 After that time, if NFC does not start automatically or manually, it means that the patch does not work for your device. You can uninstall the module and create an [issue](https://github.com/Jon8RFC/NfcScreenOff/issues).
-
-### NFC SCREEN OFF STOPS WORKING, EVENTUALLY
-
-As of the June 2023 update, on my Pixel 7 Pro, the NFC service is being disabled/paused/suspended after some time when the screen is off.  
-This may apply to more devices in the future, or may be a quirk with just my device.  A module-based remediation is unknown at this time.  
-Currently, I'm using a [Tasker](https://play.google.com/store/apps/details?id=net.dinglisch.android.taskerm) profile to stop&start the service.  
-[Jon8RFC NFC post 1](https://forum.xda-developers.com/t/module-nfc-screen-off.4034903/page-11#post-88691729)  
-[Jon8RFC NFC post 2, with Tasker profile download](https://forum.xda-developers.com/t/module-nfc-screen-off.4034903/page-11#post-88720909)
