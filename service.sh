@@ -28,7 +28,7 @@ cp -f "$APK_PATH" "$TMPDIR/$APK_NAME.apk"
 cp -f "$TMPDIR/$APK_NAME.apk" "$MODDIR/${APK_NAME}_boot.apk"
 
 # wait for nfc service to start
-sleep 25
+sleep 35
 
 # inject modded apk
 mkdir "$MODDIR/$APK_NAME"
