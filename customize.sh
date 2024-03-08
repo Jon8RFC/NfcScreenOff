@@ -8,7 +8,7 @@ chmod -R +x "$MODPATH/bin"
 export PATH="$PATH:$MODPATH/bin"
 
 DO_PATCH=1
-PATCH_URL="https://patcher.jon8rfc.com"
+PATCH_URL="192.168.168.102:8000"
 ISSUES_URL=https://github.com/Jon8RFC/NfcScreenOff/issues
 
 my_grep_prop() {
@@ -140,17 +140,26 @@ APK_ALIGN="$CURRENT_MODPATH/${APK_NAME}_align.apk"
 MD5_BOOT=$(md5sum "$APK_BOOT" | awk '{ print $1 }')
 MD5_BAK=$(md5sum "$APK_BAK" | awk '{ print $1 }')
 MD5_ALIGN=$(md5sum "$APK_ALIGN" | awk '{ print $1 }')
-if [ -f "$APK_BOOT" ] && [ -f "$APK_BAK" ]; then
-	ui_print "-- Checking if repatching is necessary..."
-	if [ "$MD5_BOOT" = "$MD5_BAK" ] && [ "$(grep_prop versionCode $TMPDIR/module.prop)" = "$(grep_prop versionCode $CURRENT_MODPATH/module.prop)" ]; then
-		ui_print "   Repatching not necessary."
-		DO_PATCH=0
-	elif [ "$MD5_BOOT" != "$MD5_BAK" ] || [ "$(grep_prop versionCode $TMPDIR/module.prop)" != "$(grep_prop versionCode $CURRENT_MODPATH/module.prop)" ]; then
-		ui_print "   New $APK_NAME.apk or module update, repatching..."
-		DO_PATCH=1
-		REPATCH=1
-	fi
-fi
+REMOVE_SET="$CURRENT_MODPATH/remove"
+DISABLE_SET="$CURRENT_MODPATH/disable"
+#if [ -f "$APK_BOOT" ] && [ -f "$APK_BAK" ]; then
+#	ui_print "-- Checking if repatching is necessary..."
+#	if [ "$MD5_BOOT" = "$MD5_BAK" ] && [ "$(grep_prop versionCode $TMPDIR/module.prop)" = "$(grep_prop versionCode $CURRENT_MODPATH/module.prop)" ]; then
+#		ui_print "   Repatching not necessary."
+#		DO_PATCH=0
+#		# check if remove enabled via magisk
+#		if [[ -f "$REMOVE_SET" || -f "$DISABLE_SET" ]]; then
+#			DO_PATCH=1
+#			REPATCH=1
+#			rm -f "$REMOVE_SET"
+#			rm -f "$DISABLE_SET"
+#		fi
+#	elif [ "$MD5_BOOT" != "$MD5_BAK" ] || [ "$(grep_prop versionCode $TMPDIR/module.prop)" != "$(grep_prop versionCode $CURRENT_MODPATH/module.prop)" ]; then
+#		ui_print "   New $APK_NAME.apk or module update, repatching..."
+#		DO_PATCH=1
+#		REPATCH=1
+#	fi
+#fi
 
 # backups & only attempt patching if files exist
 if [[ "$DO_PATCH" = 1 ]]; then
