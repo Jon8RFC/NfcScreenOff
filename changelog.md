@@ -1,5 +1,13 @@
 # Changelog
 
+### v2.0.1 (jon8rfc) 2024-03-xx
+#### CHANGE
+* disabled repatching check
+  * allows forced updating for server-side fixes
+* sleep from 25 to 35, to better accommodate older devices & android versions
+#### NOTES
+* fixed server-side Android 14 patching compatibility with older Android versions
+
 ### v2.0.0 (jon8rfc) 2023-07-27
 #### FIX
 * odex and/or "classic" modding to only attempt if files exist, rather than long waiting & failing
