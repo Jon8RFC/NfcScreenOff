@@ -14,8 +14,12 @@ The `modded` app was generated using [this method](https://github.com/lapwat/Nfc
 
 ### I AM STUCK IN A BOOTLOOP
 
-Remove the module manually
+There's a buffer before the module executes its script. What's most likely to happen, rather than a bootloop, is an unavoidable reboot after many seconds of uptime.
 
+1. After booting, immediately open magisk, go to the modules list, and mark it either disable or remove the module.
+2. On the next boot, you should have no issues caused by this module.
+3. Force a repatch with NFCScreenOff, as the NFC apk has likely been updated. 
+#### OR
 1. Boot into TWRP
 2. Advanced -> File Manager
 3. Delete /adb/modules/NFCScreenOff
