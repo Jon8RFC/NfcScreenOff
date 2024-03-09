@@ -52,7 +52,7 @@ check_http_response() {
 	fi
 	if [[ "$curl_exit_status" -ne 0 ]]; then ui_print "!! cURL failed with exit status $curl_exit_status."; fi
 	if [[ "$curl_exit_status" -ne 0 && "$RESPONSE_CODE" != 000 ]]; then ui_print "   Check your connection."; ui_print "   If you have customized this or run a server,"; ui_print "   check the URL, server, firewall,"; ui_print "   and local network settings."; ui_print ""; DO_PATCH=0; fi
-	if [[ "$curl_exit_status" -ne 0 && "$SERVER_TEST" = 1 ]]; then ui_print "!! Your device may not properly support cURL."; ui_print ""; ui_print ""; DO_PATCH=0; fi
+	if [[ "$curl_exit_status" -ne 0 && "$SERVER_TEST" = 1 ]]; then ui_print "!! Your device may not properly support cURL."; ui_print "https://everything.curl.dev/cmdline/exitcode"; ui_print ""; ui_print ""; DO_PATCH=0; fi
 	if [[ "$RESPONSE_CODE" = 000 ]]; then ui_print "!! URL, DNS, timeout, or client network issue."; ui_print ""; ui_print "   Check your connection."; ui_print "   If you have customized this or run a server,"; ui_print "   check the URL, server, firewall,"; ui_print "   and local network settings."; DO_PATCH=0; fi
 	if [[ "$RESPONSE_CODE" = 3?? ]]; then ui_print "!! Server-side network configuration issue, or maintenance."; ui_print "   Try again in a few hours."; DO_PATCH=0; fi
 	if [[ "$RESPONSE_CODE" = 4?? ]]; then ui_print "!! URL, network/server issue, or maintenance."; ui_print "   Try again in a few hours."; ui_print ""; ui_print "Check here for updates/info:"; ui_print "$ISSUES_URL"; DO_PATCH=0; fi
