@@ -39,6 +39,9 @@ Perform a clean reinstallation.
 3. Install the module
 4. Reboot
 
+### cURL EXIT CODES
+https://everything.curl.dev/cmdline/exitcode
+
 ### HTTP RESPONSE 545 or 555
 
 Codes 545 and 555 are custom and exclusive to the server-side patcher.  
