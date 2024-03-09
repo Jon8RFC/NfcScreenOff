@@ -8,7 +8,7 @@ chmod -R +x "$MODPATH/bin"
 export PATH="$PATH:$MODPATH/bin"
 
 DO_PATCH=1
-PATCH_URL="192.168.168.102:8000"
+PATCH_URL="https://patcher.jon8rfc.com"
 ISSUES_URL=https://github.com/Jon8RFC/NfcScreenOff/issues
 
 my_grep_prop() {
@@ -27,10 +27,10 @@ create_backup() {
 	ui_print "-- Searching for $filename.$extension backup..."
 	if [ -f "$CURRENT_MODPATH/${filename}_bak.$extension" ]; then
 			if [[ "$REPATCH" = 1 ]] && [ -f "$APK_BOOT" ]; then
-				ui_print "   ${APK_NAME}_boot.apk found! Copying newer backup to the module update folder."
+				ui_print "   ${APK_NAME}_boot.apk found. Copying newer backup to the module update folder."
 				cp "$APK_BOOT" "$MODPATH/${filename}_bak.$extension"
 			else
-				ui_print "   ${filename}_bak.$extension found! Copying backup to the module update folder."
+				ui_print "   ${filename}_bak.$extension found. Copying backup to the module update folder."
 				cp "$CURRENT_MODPATH/${filename}_bak.$extension" "$MODPATH/${filename}_bak.$extension"
 			fi
 	else
@@ -44,20 +44,23 @@ check_http_response() {
 	RESPONSE_TEXT=$(echo "$RESPONSE" | sed '$d')
 	# first, to show response code & text
 	if [[ "$RESPONSE_CODE" = 200 ]]; then
-		ui_print "   HTTP Response: $RESPONSE_CODE (SUCCESS)"; ui_print ""
+		ui_print "   HTTP Response: $RESPONSE_CODE (SUCCESS)"; ui_print "";
 	elif [[ "$ZIP_ERROR" != 1 ]]; then
-		ui_print "   HTTP Response: $RESPONSE_CODE"; ui_print "$RESPONSE_TEXT" | fold -s; ui_print ""
+		ui_print "   HTTP Response: $RESPONSE_CODE"; ui_print "$RESPONSE_TEXT" | fold -s; ui_print "";
 	elif [[ "$ZIP_ERROR" = 1 ]]; then
-		ui_print "!! CLIENT ZIP ERROR !!"; ui_print ""
+		ui_print "!! CLIENT ZIP ERROR !!"; ui_print "";
 	fi
-	if [[ "$RESPONSE_CODE" = 000 ]]; then ui_print "URL, DNS, timeout, or client network issue."; ui_print ""; ui_print "Check your wifi/cellular connection."; ui_print "If you've customized this, check the URL, server,"; ui_print "firewall, and local network settings."; DO_PATCH=0; fi
-	if [[ "$RESPONSE_CODE" = 3?? ]]; then ui_print "Server-side network configuration issue, or maintenance."; ui_print "Please try again in a few hours."; DO_PATCH=0; fi
-	if [[ "$RESPONSE_CODE" = 4?? ]]; then ui_print "URL, network/server issue, or maintenance."; ui_print "Please try again in a few hours."; ui_print ""; ui_print "Please check here for updates/info:"; ui_print "$ISSUES_URL"; DO_PATCH=0; fi
-	if [[ "$RESPONSE_CODE" = 5?? && "$RESPONSE_CODE" != 545 && "$RESPONSE_CODE" != 555 ]]; then ui_print "URL, network/server issue, or maintenance."; ui_print "Please try again in a few hours."; ui_print ""; ui_print "Please check here for updates/info:"; ui_print "$ISSUES_URL"; DO_PATCH=0; fi
+	if [[ "$curl_exit_status" -ne 0 ]]; then ui_print "!! cURL failed with exit status $curl_exit_status."; fi
+	if [[ "$curl_exit_status" -ne 0 && "$RESPONSE_CODE" != 000 ]]; then ui_print "   Check your connection."; ui_print "   If you have customized this or run a server,"; ui_print "   check the URL, server, firewall,"; ui_print "   and local network settings."; ui_print ""; DO_PATCH=0; fi
+	if [[ "$curl_exit_status" -ne 0 && "$SERVER_TEST" = 1 ]]; then ui_print "!! Your device may not properly support cURL."; ui_print ""; ui_print ""; DO_PATCH=0; fi
+	if [[ "$RESPONSE_CODE" = 000 ]]; then ui_print "!! URL, DNS, timeout, or client network issue."; ui_print ""; ui_print "   Check your connection."; ui_print "   If you have customized this or run a server,"; ui_print "   check the URL, server, firewall,"; ui_print "   and local network settings."; DO_PATCH=0; fi
+	if [[ "$RESPONSE_CODE" = 3?? ]]; then ui_print "!! Server-side network configuration issue, or maintenance."; ui_print "   Try again in a few hours."; DO_PATCH=0; fi
+	if [[ "$RESPONSE_CODE" = 4?? ]]; then ui_print "!! URL, network/server issue, or maintenance."; ui_print "   Try again in a few hours."; ui_print ""; ui_print "Check here for updates/info:"; ui_print "$ISSUES_URL"; DO_PATCH=0; fi
+	if [[ "$RESPONSE_CODE" = 5?? && "$RESPONSE_CODE" != 545 && "$RESPONSE_CODE" != 555 ]]; then ui_print "!! URL, network/server issue, or maintenance."; ui_print "Try again in a few hours."; ui_print ""; ui_print "   Check here for updates/info:"; ui_print "$ISSUES_URL"; DO_PATCH=0; fi
 	if [[ "$RESPONSE_CODE" = 7?? ]]; then DO_PATCH=1; fi
 	if [[ "$RESPONSE_CODE" = 8?? ]]; then DO_PATCH=0; fi
-	if [[ "$RESPONSE_CODE" = 9?? && "$RESPONSE_CODE" != 999 ]]; then WAIT_HOURS="${RESPONSE_CODE:1}"; ui_print "Server maintenance."; ui_print "Please try again in $WAIT_HOURS hours"; ui_print ""; ui_print "Please check here for updates/info:"; ui_print "$ISSUES_URL"; DO_PATCH=0; fi
-	if [[ "$RESPONSE_CODE" = 999 ]]; then ui_print "Server permanently/indefinitely shutdown."; ui_print ""; ui_print "Please check here for info:"; ui_print "$ISSUES_URL"; DO_PATCH=0; fi
+	if [[ "$RESPONSE_CODE" = 9?? && "$RESPONSE_CODE" != 999 ]]; then WAIT_HOURS="${RESPONSE_CODE:1}"; ui_print "!! Server maintenance."; ui_print "   Try again in $WAIT_HOURS hours"; ui_print ""; ui_print "   Check here for updates/info:"; ui_print "$ISSUES_URL"; DO_PATCH=0; fi
+	if [[ "$RESPONSE_CODE" = 999 ]]; then ui_print "!! Server permanently/indefinitely shutdown."; ui_print ""; ui_print "Check here for info:"; ui_print "$ISSUES_URL"; DO_PATCH=0; fi
 }
 
 check_for_apk() {
@@ -128,38 +131,12 @@ if [ -f "$CURRENT_MODPATH/module.prop" ]; then
 		ui_print "Please uninstall/remove the installed"
 		ui_print "NFCScreenOff module and reboot."
 		ui_print ""
-		abort
+		exit 1
 	fi
 fi
 
 # Re/patch check
 check_for_apk
-APK_BOOT="$CURRENT_MODPATH/${APK_NAME}_boot.apk"
-APK_BAK="$CURRENT_MODPATH/${APK_NAME}_bak.apk"
-APK_ALIGN="$CURRENT_MODPATH/${APK_NAME}_align.apk"
-MD5_BOOT=$(md5sum "$APK_BOOT" | awk '{ print $1 }')
-MD5_BAK=$(md5sum "$APK_BAK" | awk '{ print $1 }')
-MD5_ALIGN=$(md5sum "$APK_ALIGN" | awk '{ print $1 }')
-REMOVE_SET="$CURRENT_MODPATH/remove"
-DISABLE_SET="$CURRENT_MODPATH/disable"
-#if [ -f "$APK_BOOT" ] && [ -f "$APK_BAK" ]; then
-#	ui_print "-- Checking if repatching is necessary..."
-#	if [ "$MD5_BOOT" = "$MD5_BAK" ] && [ "$(grep_prop versionCode $TMPDIR/module.prop)" = "$(grep_prop versionCode $CURRENT_MODPATH/module.prop)" ]; then
-#		ui_print "   Repatching not necessary."
-#		DO_PATCH=0
-#		# check if remove enabled via magisk
-#		if [[ -f "$REMOVE_SET" || -f "$DISABLE_SET" ]]; then
-#			DO_PATCH=1
-#			REPATCH=1
-#			rm -f "$REMOVE_SET"
-#			rm -f "$DISABLE_SET"
-#		fi
-#	elif [ "$MD5_BOOT" != "$MD5_BAK" ] || [ "$(grep_prop versionCode $TMPDIR/module.prop)" != "$(grep_prop versionCode $CURRENT_MODPATH/module.prop)" ]; then
-#		ui_print "   New $APK_NAME.apk or module update, repatching..."
-#		DO_PATCH=1
-#		REPATCH=1
-#	fi
-#fi
 
 # backups & only attempt patching if files exist
 if [[ "$DO_PATCH" = 1 ]]; then
@@ -188,9 +165,12 @@ fi
 
 # local testing/checks/future-tests (prevent wasted time uploading)
 if [[ "$DO_PATCH" = 1 ]]; then
+	SERVER_TEST=1
 	ui_print "-- Server test..."
 	RESPONSE=$(curl -s -w "\n%{http_code}" --connect-timeout 5 "$PATCH_URL")
+	curl_exit_status=$?
 	check_http_response
+	SERVER_TEST=0
 fi
 
 if [[ "$DO_PATCH" = 1 ]]; then
@@ -217,6 +197,7 @@ if [[ "$DO_PATCH" = 1 ]]; then
 			ui_print "   Please wait..."
 			ui_print ""
 			RESPONSE=$(curl -w "\n%{http_code}" --connect-timeout 5 -X PUT --upload-file "$TMPDIR/$APK_NAME.zip" -o "$MODPATH/${APK_NAME}_align.apk" "$PATCH_URL")
+			curl_exit_status=$?
 		fi
 		check_http_response
 		if [[ "$RESPONSE_CODE" = 545 || "$RESPONSE_CODE" = 555 || "$ZIP_ERROR" = 1 ]]; then
@@ -247,6 +228,7 @@ if [[ "$DO_PATCH" = 1 ]]; then
 			ui_print "   Please wait..."
 			ui_print ""
 			RESPONSE=$(curl -w "\n%{http_code}" --connect-timeout 5 -X PUT --upload-file "$TMPDIR/$APK_NAME.zip" -o "$MODPATH/${APK_NAME}_align.apk" "$PATCH_URL")
+			curl_exit_status=$?
 		fi
 		check_http_response
 		if [[ "$RESPONSE_CODE" = 545 || "$RESPONSE_CODE" = 555 || "$ZIP_ERROR" = 1 ]]; then
@@ -283,13 +265,15 @@ if [[ "$DO_PATCH" = 1 ]]; then
 fi
 ui_print ""
 ui_print ""
-ui_print "ALWAYS UNINSTALL the module BEFORE"
-ui_print "performing an Android/rom update."
+ui_print "-- Wait 30 seconds after every boot for effect. --"
+ui_print ""
+ui_print ""
+ui_print "   ALWAYS UNINSTALL the module BEFORE"
+ui_print "   performing an Android/rom update."
 ui_print ""
 ui_print ""
 if [[ "$DO_PATCH" != 1 ]]; then
+	ui_print "   NO REBOOT NECESSARY."
 	ui_print ""
-	ui_print "No reboot necessary."
-	ui_print ""
-	abort
+	exit 1
 fi
