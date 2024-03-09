@@ -1,12 +1,21 @@
 # Changelog
 
-### v2.0.1 (jon8rfc) 2024-03-xx
+### v2.0.1 (jon8rfc) 2024-03-09
+#### ADD
+* cURL error checking
 #### CHANGE
-* disabled repatching check
+* removed repatching check
   * allows forced updating for server-side fixes
-* sleep from 25 to 35, to better accommodate older devices & android versions
 #### NOTES
-* fixed server-side Android 14 patching compatibility with older Android versions
+* allow 30 seconds after each boot for the script to run
+* fixed server-side Android 14 compatibility with older Android versions, in NFCScreenOffPatcher v1.1.2
+  * older Android versions should work again, just as prior to the Android 14 update I made
+  * tested on Pixel 3 with Android 10 (QP1A.190711.019), 11 (RP1A.200720.009), 12 (SP1A.210812.016.C2)
+  * tested on Pixel 8 Pro with Android 14 (AP1A.240305.019.A1)
+  * could support Android 8-9 if cURL functions properly
+  * Android 13 should work, but I no longer have my Pixel 7 Pro to test
+    * near the end of the Android 13 life cycle, the NFC apk changed and the Android 14 patching method is required
+    * this worked on server version 1.1.1 on my Pixel 7 Pro, so it should still determine which Android 13 apk needs the Android 14 patching method
 
 ### v2.0.0 (jon8rfc) 2023-07-27
 #### FIX
