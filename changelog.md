@@ -17,6 +17,7 @@
     * near the end of the Android 13 life cycle, the NFC apk changed and the Android 14 patching method is required
     * this worked on server version 1.1.1 on my Pixel 7 Pro, so it should still determine which Android 13 apk needs the Android 14 patching method
 
+---
 ### v2.0.0 (jon8rfc) 2023-07-27
 #### FIX
 * odex and/or "classic" modding to only attempt if files exist, rather than long waiting & failing
