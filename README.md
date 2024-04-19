@@ -1,14 +1,32 @@
 # NFCScreenOff
 
-Read NFC tags when screen is off. Disable NFC tagging sound.
+Read NFC tags when screen is off or locked. Disable NFC tagging sound.
 
 _Useful integrations: [NFC Card Emulator Pro](https://play.google.com/store/apps/details?id=com.yuanwofei.cardemulator.pro) - [Tasker](https://play.google.com/store/apps/details?id=net.dinglisch.android.taskerm)_
+
+XDA Forums thread: https://xdaforums.com/t/4667435/
 
 # How does it work?
 
 The NFC app is patched during installation into a `modded` version. This `modded` version is injected at boot time by [service.sh](service.sh) so that the phone thinks the screen is always on and unlocked. This patch only applies to NFC Service so it does not impact any other functionality of the phone that involves screen state detection.
 
 The `modded` app was generated using [this method](https://github.com/lapwat/NfcScreenOffPie).
+
+# Installation
+1. [Download](https://github.com/Jon8RFC/NfcScreenOff/releases/latest)
+2. Install in Magisk
+3. Wait for the upload, patch, and download
+4. Reboot
+5. Unlock phone
+6. Wait ~30 seconds for the script to execute
+7. Ready for use  
+⠀⠀
+   * ${\color{red}Please\space disable\space or\space remove\space the\space module\space before\space performing\space an\space Android\space update.​​}$
+   * ${\color{red}With\space each\space Android\space update,\space you\space should\space reinstall\space the\space module.​​}$
+   * You can reinstall on top of a disabled module.​
+
+  
+ Performing an Android update without FIRST disabling or removing the module may cause a cyclical reboot, but not an inescapable boot loop. See the help section.​
 
 # Help section
 
