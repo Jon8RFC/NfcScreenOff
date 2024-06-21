@@ -1,5 +1,27 @@
 # Changelog
 
+### v2.1.0 (jon8rfc) 2024-06-21
+#### FIX
+* not reporting when no apk is found
+#### ADD
+* June 2024 AOSP support
+  * may support Android 15 beta
+* possible additional support for other devices, older devices, and various ROMs
+  * added paths and uncommon NFC filenames (currently commented out)
+* auto-disable module and stop service.sh if apk is updated, missing, or moved on subsequent reboots
+  * support finding moved/updated apk upon boot
+  * pseudo-update via Magisk, to repatch
+* termux-notification upon reboot when repatching is necessary
+  * (requires termux-notification proper installation)
+#### CHANGE
+* code reorganization and refactor
+  * work in progress
+* mounting of directory to just NFC apk
+#### NOTES
+* allow ~30 seconds after each boot for the script to run
+* may support Android 15 beta via June 2024 AOSP update
+* auto-disable prevents cyclical reboots even if NFC.apk is moved or updated
+
 ### v2.0.1 (jon8rfc) 2024-03-09
 #### ADD
 * cURL error checking
@@ -17,7 +39,6 @@
     * near the end of the Android 13 life cycle, the NFC apk changed and the Android 14 patching method is required
     * this worked on server version 1.1.1 on my Pixel 7 Pro, so it should still determine which Android 13 apk needs the Android 14 patching method
 
----
 ### v2.0.0 (jon8rfc) 2023-07-27
 #### FIX
 * odex and/or "classic" modding to only attempt if files exist, rather than long waiting & failing
@@ -63,4 +84,4 @@ Currently, I'm using a [Tasker](https://play.google.com/store/apps/details?id=ne
 [Jon8RFC NFC post 2, with Tasker profile download](https://forum.xda-developers.com/t/module-nfc-screen-off.4034903/page-11#post-88720909)
 
 ---
-### v0.3.3 (lapwat)  2022-03-30
+### v0.0.1-v0.3.3 (lapwat)  2022-03-30
