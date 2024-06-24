@@ -1,7 +1,7 @@
 id=NFCScreenOff
 name=NFC Screen Off
-version=v2.1.0
-versionCode=20100
+version=v2.1.1
+versionCode=20101
 author=Jon8RFC v2.0.0+, lapwat v0.3.3-
 description=Read NFC tags when screen is off. Disable NFC tagging sound.
 updateJson=https://raw.githubusercontent.com/Jon8RFC/NfcScreenOff/master/update.json
