@@ -264,18 +264,21 @@ get_device_info() {
 }
 
 do_patching() {
-	if [ "$DO_PATCH" = "1" ]; then
+	if [ "$DO_PATCH" = "1" ] && [ "$CLASSIC_EXIST" = "1" ]; then
 		UPLOAD_CLASSIC="NFCScreenOff_upload_this1.zip"
 		UPLOAD_ODEX="NFCScreenOff_upload_this2.zip"
 		FAIL_CLASSIC=0
 		FAIL_ODEX=0
+		SUCCESS=0
 		ln -s "$MODPATH/${APK_NAME}_bak.apk" "$TMPDIR/$APK_NAME.apk"
 		ln -s "$MODPATH/${APK_NAME}_bak.odex" "$TMPDIR/$APK_NAME.odex"
 		ln -s "$MODPATH/${APK_NAME}_bak.vdex" "$TMPDIR/$APK_NAME.vdex"
 		ln -s /system/framework/arm64 "$TMPDIR/arm64"
 		if [ "$CLASSIC_EXIST" = "1" ]; then
 			ZIP_ERROR=0
-			rm "$TMPDIR/$APK_NAME.zip"
+			if [ -f "$TMPDIR/$APK_NAME.zip" ]; then
+				rm "$TMPDIR/$APK_NAME.zip"
+			fi
 			ui_print "-- Zipping $APK_NAME.apk and device's framework"
 			ZIP_OUTPUT=$(zip -j "$TMPDIR/$APK_NAME" "$MODPATH/.env" "$TMPDIR/$APK_NAME.apk" "$FRAMEWORK_RES_PATH" 2>&1)
 			ui_print "$ZIP_OUTPUT"
@@ -290,7 +293,11 @@ do_patching() {
 				curl_exit_status=$?
 			fi
 			check_http_response
-			if [ "$RESPONSE_CODE" = "545" ] || [ "$RESPONSE_CODE" = "555" ] || [ "$ZIP_ERROR" = "1" ]; then
+			if [ "$RESPONSE_CODE" = "200" ]; then
+				ui_print "-- Classic modding succeeded"
+				DO_PATCH=0
+				SUCCESS=1
+			elif [ "$RESPONSE_CODE" = "545" ] || [ "$RESPONSE_CODE" = "555" ] || [ "$ZIP_ERROR" = "1" ]; then
 				cp -f "$TMPDIR/$APK_NAME.zip" "$EXTERNAL_STORAGE/Download/$UPLOAD_CLASSIC" 2>/dev/null
 				cp -f "$TMPDIR/$APK_NAME.zip" "$SECONDARY_STORAGE/Download/$UPLOAD_CLASSIC" 2>/dev/null
 				cp -f "$TMPDIR/$APK_NAME.zip" "$EMULATED_STORAGE_TARGET/Download/$UPLOAD_CLASSIC" 2>/dev/null
@@ -298,9 +305,11 @@ do_patching() {
 				ui_print ""; ui_print "!! MODDING FAILED (classic)"
 			fi
 		fi
-		if [ "$ODEX_EXIST" = "1" ]; then
+		if [ "$DO_PATCH" = "1" ] && [ "$ODEX_EXIST" = "1" ]; then
 			ZIP_ERROR=0
-			rm "$TMPDIR/$APK_NAME.zip"
+			if [ -f "$TMPDIR/$APK_NAME.zip" ]; then
+				rm "$TMPDIR/$APK_NAME.zip"
+			fi
 			ui_print "";
 			ui_print "-- Classic modding unavailable/failed, trying odex..."
 			ui_print "   Adding framework folder, odex, vdex files to archive"
@@ -321,7 +330,11 @@ do_patching() {
 				curl_exit_status=$?
 			fi
 			check_http_response
-			if [ "$RESPONSE_CODE" = "545" ] || [ "$RESPONSE_CODE" = "555" ] || [ "$ZIP_ERROR" = "1" ]; then
+			if [ "$RESPONSE_CODE" = "200" ]; then
+				ui_print "-- Odex modding succeeded"
+				DO_PATCH=0
+				SUCCESS=1
+			elif [ "$RESPONSE_CODE" = "545" ] || [ "$RESPONSE_CODE" = "555" ] || [ "$ZIP_ERROR" = "1" ]; then
 				cp -f "$TMPDIR/$APK_NAME.zip" "$EXTERNAL_STORAGE/Download/$UPLOAD_ODEX" 2>/dev/null
 				cp -f "$TMPDIR/$APK_NAME.zip" "$SECONDARY_STORAGE/Download/$UPLOAD_ODEX" 2>/dev/null
 				cp -f "$TMPDIR/$APK_NAME.zip" "$EMULATED_STORAGE_TARGET/Download/$UPLOAD_ODEX" 2>/dev/null
@@ -345,9 +358,9 @@ do_patching() {
 			ui_print "$ISSUES_URL"
 			DO_PATCH=0
 		fi
-		if [ "$DO_PATCH" = "1" ] && [ "$RESPONSE_CODE" = "200" ]; then
+		if [ "$SUCCESS" = "1" ] && [ "$RESPONSE_CODE" = "200" ]; then
 			ui_print "-- Downloaded patched $APK_NAME.apk from Jon8RFC's server" | fold -s
-		elif [ "$DO_PATCH" = "1" ] && [ "$RESPONSE_CODE" != "200" ]; then
+		elif [ "$SUCCESS" = "1" ] && [ "$RESPONSE_CODE" != "200" ]; then
 			ui_print "-- Unknown/possible success." | fold -s
 			ui_print "   Save and upload this log (top-right 'disk' button):"
 			ui_print "$ISSUES_URL"
@@ -361,20 +374,17 @@ search_for_framework_and_backup
 do_server_precheck
 get_device_info
 do_patching
-if [ "$DO_PATCH" = "1" ]; then
+if [ "$SUCCESS" = "1" ]; then
+	ui_print "-- Enabling NFC"
 	su -c "svc nfc enable"
 fi
 #
 ui_print ""
 ui_print ""
-ui_print "-- Wait 30 seconds after boot for effect. --"
+ui_print ">> Wait ~30 seconds after boot for effect. <<"
 ui_print ""
 ui_print ""
-ui_print "   ALWAYS UNINSTALL the module BEFORE"
-ui_print "   performing an Android/rom/firmware update."
-ui_print ""
-ui_print ""
-if [ "$DO_PATCH" != "1" ]; then
+if [ "$SUCCESS" != "1" ]; then
 	ui_print "   NO REBOOT NECESSARY."
 	ui_print ""
 	exit 1
