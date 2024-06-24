@@ -1,5 +1,13 @@
 # Changelog
 
+### v2.1.1 (jon8rfc) 2024-06-24
+#### FIX
+* code permitting odex modding after successful classic modding when both exist
+#### CHANGE
+* little things in success message forgotten for 2.1.0
+#### NOTES
+* thank you @LordSithek for the bug report!
+
 ### v2.1.0 (jon8rfc) 2024-06-21
 #### FIX
 * not reporting when no apk is found
