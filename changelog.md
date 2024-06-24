@@ -1,12 +1,35 @@
 # Changelog
 
+## v2.1.2 (jon8rfc) 2024-xx-xx
+### FIX
+* failure messages for classic & odex modding
+* classic-required patching
+* server-side typos
+### ADD
+* additional nfc apk filenames
+* additional framework-res.apk directories (v2.1.0)
+* additional arm64 directories
+* additional user & server success/failure feedback
+* failed client reporting
+* temp directory cleanup
+### CHANGE
+* remove unnecessary odex backup
+* .env nfc/framework info to better understand and support other devices
+* code cleanup
+### NOTES
+* allow ~30 seconds after each boot for the script to run
+* may support Android 15 beta via June 2024 AOSP update in 2.1.0+
+* auto-disable prevents cyclical reboots even if NFC.apk is moved or updated
+  * this is the pseudo-update in Magisk I've setup--check the module, enable, and update
+  * termux-notification upon reboot, if you have that properly setup
+
 ### v2.1.1 (jon8rfc) 2024-06-24
 #### FIX
-* code permitting odex modding after successful classic modding when both exist
+* code permitting odex modding after successful classic modding
 #### CHANGE
-* little things in success message forgotten for 2.1.0
+* success message forgotten for 2.1.0
 #### NOTES
-* thank you @LordSithek for the bug report!
+* HOTFIX - thank you @LordSithek for the bug report!
 
 ### v2.1.0 (jon8rfc) 2024-06-21
 #### FIX
