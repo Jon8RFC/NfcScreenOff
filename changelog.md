@@ -1,22 +1,27 @@
 # Changelog
 
-## v2.1.2 (jon8rfc) 2024-xx-xx
+## v2.2.0 (jon8rfc) 2024-07-xx
 ### FIX
 * failure messages for classic & odex modding
-* classic-required patching
-* server-side typos
+* minor, miscellaneous orders of operation
 ### ADD
-* additional nfc apk filenames
-* additional framework-res.apk directories (v2.1.0)
-* additional arm64 directories
-* additional user & server success/failure feedback
+* more nfc apk filenames
+* more framework-res.apk directories (v2.1.0)
+* more arm64 directories
+* broader search beyond lists, if no APK or framework found
+  * likely needs a server-side patch once found
+* better success/failure feedback
 * failed client reporting
 * temp directory cleanup
+* module integrity check
 ### CHANGE
 * remove unnecessary odex backup
-* .env nfc/framework info to better understand and support other devices
-* code cleanup
+* .env info to better support other devices
+* bigger code cleanup, reorganization, and refactor
+* device precheck before upload
 ### NOTES
+* will look into cURL support for older devices without bloating the filesize
+* will soon look into gpay/wallet with screen off
 * allow ~30 seconds after each boot for the script to run
 * may support Android 15 beta via June 2024 AOSP update in 2.1.0+
 * auto-disable prevents cyclical reboots even if NFC.apk is moved or updated
