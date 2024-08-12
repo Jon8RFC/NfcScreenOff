@@ -1,6 +1,6 @@
 {
-    "version": "v2.1.1",
-    "versionCode": "20101",
-    "zipUrl": "https://github.com/Jon8RFC/NfcScreenOff/releases/download/v2.1.1/NFCScreenOff-v2.1.1.zip",
-    "changelog": "https://raw.githubusercontent.com/Jon8RFC/NfcScreenOff/master/changelog.md"
+    "version": "v2.1.2",
+    "versionCode": "20102",
+    "zipUrl": "https://github.com/Jon8RFC/NfcScreenOff/releases/download/v2.1.2/NFCScreenOff-v2.1.2.zip",
+    "changelog": "https://raw.githubusercontent.com/Jon8RFC/NfcScreenOff/master/changelog_latest.md"
 }
