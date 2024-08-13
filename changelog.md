@@ -27,11 +27,11 @@
 * auto-disable prevents cyclical reboots even if NFC.apk is moved or updated
   * this is the pseudo-update in Magisk I've setup--check the module, enable, and update
   * termux-notification upon reboot, if you have that properly setup
-
+---
 ## v2.1.2 (jon8rfc) 2024-08-11
 ### FIX
 * magisk 27002+ support
-
+---
 ### v2.1.1 (jon8rfc) 2024-06-24
 #### FIX
 * code permitting odex modding after successful classic modding
@@ -39,7 +39,7 @@
 * success message forgotten for 2.1.0
 #### NOTES
 * HOTFIX - thank you @LordSithek for the bug report!
-
+---
 ### v2.1.0 (jon8rfc) 2024-06-21
 #### FIX
 * not reporting when no apk is found
@@ -61,7 +61,7 @@
 * allow ~30 seconds after each boot for the script to run
 * may support Android 15 beta via June 2024 AOSP update
 * auto-disable prevents cyclical reboots even if NFC.apk is moved or updated
-
+---
 ### v2.0.1 (jon8rfc) 2024-03-09
 #### ADD
 * cURL error checking
@@ -78,7 +78,7 @@
   * Android 13 should work, but I no longer have my Pixel 7 Pro to test
     * near the end of the Android 13 life cycle, the NFC apk changed and the Android 14 patching method is required
     * this worked on server version 1.1.1 on my Pixel 7 Pro, so it should still determine which Android 13 apk needs the Android 14 patching method
-
+---
 ### v2.0.0 (jon8rfc) 2023-07-27
 #### FIX
 * odex and/or "classic" modding to only attempt if files exist, rather than long waiting & failing
